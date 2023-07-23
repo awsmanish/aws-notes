@@ -1,0 +1,416 @@
+VIRTUAL PRIVATE NETWORK  (VPN)
+
+STEPS
+	
+	CREATE VPC-1 – NAME – AWS SITE (IP: 10.1.0.0/16)
+	CREATE VPC-2- NAME- OFFICE SITE (IP: 10.2.0.0/16)
+	CREATE SUBNET -1 (IP: 10.1.1.0/24)
+	CREATE SUBNET -2 (IP: 10.2.2.0/24)
+	CREATE INTERNET GATEWAY = ATTACHED VPC-1-AWS SITE
+	GOING TO ROUTE TABALE – ATTACHED INTERNET GATWAY –VPC1-AWS SITE
+	LAUNCH INSTANCE-WITH-LINUX-2-AMI – AWS-PUB
+	LAUNCH INSTANCE- WITH-LINUX-2-AMI-OFFICE-PVT
+	LAUNCH INSTANCE –VPC-1-PUB-WITH-ICMP ALL -(OFFICE SITE IP: 10.1.0.0/16)   {exchange krna instance m jo vpc ki ip hogi wo}
+	LAUNCH INSTANCE –VPC-2-PVT-WITH-ICMP ALL -(AWS SITE IP: 10.2.0.0/16)
+	GOING TO VPN -> CREATE CUSTOMER GATEWAY -> PUT AWS SITE INSTANCE PUBLIC IP -> AND CREATE 
+	GOING TO VIRTUAL PRIVATE GATWAY -> CREATE VIRTUAL PRIVATE GATWAY -> OFFICE SITE VPC
+	CREATE VPN CONNECTION -> ATTACHED VPN -> GIVEN STATIC IP AWS SITE (IP: 10.1.0.0/16)
+	GOING TO VPN -> SELECTE OPTION DOWNLOAD CONFIGURE -> SEARCH OPENSWAN AND DOWNLOAD
+	GOING TO PUBLIC INSTANCE -> YUM UPDATE –Y -> SUDO YUM INSTALL OPENSWAN –Y	
+	sudo vim /etc/sysctl.conf ->  paste 3 line 
+	net.ipv4.ip_forward = 1
+	net.ipv4.conf.default.rp_filter = 0
+	net.ipv4.conf.default.accept_source_route = 0   -> SAVE CHANGES 
+	sudo sysctl –p
+	sudo systemctl restart network
+	sudo vim /etc/ipsec.conf  -> open and uncomment last line
+	create new file  sudo vim /etc/ipsec.d/aws.conf -> paste com tunnel 1 block and delete auth-esp option 
+      
+conn Tunnel1
+        authby=secret
+        auto=start
+        left=%defaultroute
+        leftid=13.239.115.119
+        right=13.55.116.116
+        type=tunnel
+        ikelifetime=8h
+        keylife=1h
+        phase2alg=aes128-sha1;modp1024
+        ike=aes128-sha1;modp1024
+        keyingtries=%forever
+        keyexchange=ike
+        leftsubnet=10.1.0.0/16
+        rightsubnet=10.2.0.0/16
+        dpddelay=10
+        dpdtimeout=30
+        dpdaction=restart_by_peer
+~
+~
+~
+
+	create new file sudo vim /etc/ipsec.d/aws.secrets and paste configur line number -5 -> save 
+	sudo systemctl restart ipsec.service 
+	sudo systemctl restart network
+	going to aws -> route table -> select office route table -> route propagation -> enable -> save
+	sudo chmod 600 key-name 
+	ssh –i key-name ec2-user@(0ffice site)private-ip
+	ping ---- private ip
+
+
+
+
+
+
+
+
+
+
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+[ec2-user@ip-10-1-1-20 ~]$ sudo yum update -y
+Loaded plugins: extras_suggestions, langpacks, priorities, update-motd
+amzn2-core                                                                                                                               | 3.7 kB  00:00:00
+Resolving Dependencies
+--> Running transaction check
+---> Package cloud-init.noarch 0:19.3-46.amzn2 will be updated
+---> Package cloud-init.noarch 0:19.3-46.amzn2.0.1 will be an update
+---> Package grub2.x86_64 1:2.06-9.amzn2.0.1 will be obsoleted
+---> Package grub2.x86_64 1:2.06-9.amzn2.0.3 will be obsoleting
+---> Package grub2-common.noarch 1:2.06-9.amzn2.0.1 will be updated
+---> Package grub2-common.noarch 1:2.06-9.amzn2.0.3 will be an update
+---> Package grub2-efi-x64-ec2.x86_64 1:2.06-9.amzn2.0.1 will be updated
+---> Package grub2-efi-x64-ec2.x86_64 1:2.06-9.amzn2.0.3 will be an update
+---> Package grub2-pc.x86_64 1:2.06-9.amzn2.0.1 will be updated
+---> Package grub2-pc.x86_64 1:2.06-9.amzn2.0.3 will be obsoleting
+---> Package grub2-pc-modules.noarch 1:2.06-9.amzn2.0.1 will be updated
+---> Package grub2-pc-modules.noarch 1:2.06-9.amzn2.0.3 will be an update
+---> Package grub2-tools.x86_64 1:2.06-9.amzn2.0.1 will be obsoleted
+---> Package grub2-tools.x86_64 1:2.06-9.amzn2.0.3 will be obsoleting
+---> Package grub2-tools-efi.x86_64 1:2.06-9.amzn2.0.3 will be obsoleting
+---> Package grub2-tools-extra.x86_64 1:2.06-9.amzn2.0.3 will be obsoleting
+---> Package grub2-tools-minimal.x86_64 1:2.06-9.amzn2.0.1 will be updated
+---> Package grub2-tools-minimal.x86_64 1:2.06-9.amzn2.0.3 will be obsoleting
+---> Package kernel.x86_64 0:5.10.179-166.674.amzn2 will be installed
+---> Package kernel-tools.x86_64 0:5.10.178-162.673.amzn2 will be updated
+---> Package kernel-tools.x86_64 0:5.10.179-166.674.amzn2 will be an update
+---> Package libssh2.x86_64 0:1.4.3-12.amzn2.2.3 will be updated
+---> Package libssh2.x86_64 0:1.4.3-12.amzn2.2.4 will be an update
+---> Package libwebp.x86_64 0:0.3.0-10.amzn2.0.1 will be updated
+---> Package libwebp.x86_64 0:0.3.0-10.amzn2.0.2 will be an update
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================================================================================================
+ Package                                 Arch                       Version                                    Repository                                  Size
+================================================================================================================================================================
+Installing:
+ grub2                                   x86_64                     1:2.06-9.amzn2.0.3                         amzn2-core                                  46 k
+     replacing  grub2.x86_64 1:2.06-9.amzn2.0.1
+ grub2-pc                                x86_64                     1:2.06-9.amzn2.0.3                         amzn2-core                                  45 k
+     replacing  grub2.x86_64 1:2.06-9.amzn2.0.1
+ grub2-tools                             x86_64                     1:2.06-9.amzn2.0.3                         amzn2-core                                 2.0 M
+     replacing  grub2-tools.x86_64 1:2.06-9.amzn2.0.1
+ grub2-tools-efi                         x86_64                     1:2.06-9.amzn2.0.3                         amzn2-core                                 560 k
+     replacing  grub2-tools.x86_64 1:2.06-9.amzn2.0.1
+ grub2-tools-extra                       x86_64                     1:2.06-9.amzn2.0.3                         amzn2-core                                 1.0 M
+     replacing  grub2-tools.x86_64 1:2.06-9.amzn2.0.1
+ grub2-tools-minimal                     x86_64                     1:2.06-9.amzn2.0.3                         amzn2-core                                 624 k
+     replacing  grub2-tools.x86_64 1:2.06-9.amzn2.0.1
+ kernel                                  x86_64                     5.10.179-166.674.amzn2                     amzn2extra-kernel-5.10                      33 M
+Updating:
+ cloud-init                              noarch                     19.3-46.amzn2.0.1                          amzn2-core                                 927 k
+ grub2-common                            noarch                     1:2.06-9.amzn2.0.3                         amzn2-core                                 1.8 M
+ grub2-efi-x64-ec2                       x86_64                     1:2.06-9.amzn2.0.3                         amzn2-core                                 282 k
+ grub2-pc-modules                        noarch                     1:2.06-9.amzn2.0.3                         amzn2-core                                 938 k
+ kernel-tools                            x86_64                     5.10.179-166.674.amzn2                     amzn2extra-kernel-5.10                     195 k
+ libssh2                                 x86_64                     1.4.3-12.amzn2.2.4                         amzn2-core                                 136 k
+ libwebp                                 x86_64                     0.3.0-10.amzn2.0.2                         amzn2-core                                 170 k
+
+Transaction Summary
+================================================================================================================================================================
+Install  7 Packages
+Upgrade  7 Packages
+
+Total download size: 41 M
+Downloading packages:
+Delta RPMs disabled because /usr/bin/applydeltarpm not installed.
+(1/14): grub2-2.06-9.amzn2.0.3.x86_64.rpm                                                                                                |  46 kB  00:00:00
+(2/14): cloud-init-19.3-46.amzn2.0.1.noarch.rpm                                                                                          | 927 kB  00:00:00
+(3/14): grub2-efi-x64-ec2-2.06-9.amzn2.0.3.x86_64.rpm                                                                                    | 282 kB  00:00:00
+(4/14): grub2-common-2.06-9.amzn2.0.3.noarch.rpm                                                                                         | 1.8 MB  00:00:00
+(5/14): grub2-pc-2.06-9.amzn2.0.3.x86_64.rpm                                                                                             |  45 kB  00:00:00
+(6/14): grub2-pc-modules-2.06-9.amzn2.0.3.noarch.rpm                                                                                     | 938 kB  00:00:00
+(7/14): grub2-tools-2.06-9.amzn2.0.3.x86_64.rpm                                                                                          | 2.0 MB  00:00:00
+(8/14): grub2-tools-efi-2.06-9.amzn2.0.3.x86_64.rpm                                                                                      | 560 kB  00:00:00
+(9/14): grub2-tools-extra-2.06-9.amzn2.0.3.x86_64.rpm                                                                                    | 1.0 MB  00:00:00
+(10/14): grub2-tools-minimal-2.06-9.amzn2.0.3.x86_64.rpm                                                                                 | 624 kB  00:00:00
+(11/14): libssh2-1.4.3-12.amzn2.2.4.x86_64.rpm                                                                                           | 136 kB  00:00:00
+(12/14): kernel-tools-5.10.179-166.674.amzn2.x86_64.rpm                                                                                  | 195 kB  00:00:00
+(13/14): libwebp-0.3.0-10.amzn2.0.2.x86_64.rpm                                                                                           | 170 kB  00:00:00
+(14/14): kernel-5.10.179-166.674.amzn2.x86_64.rpm                                                                                        |  33 MB  00:00:00
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                                                            49 MB/s |  41 MB  00:00:00
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Updating   : 1:grub2-common-2.06-9.amzn2.0.3.noarch                                                                                                      1/25
+  Installing : 1:grub2-tools-minimal-2.06-9.amzn2.0.3.x86_64                                                                                               2/25
+  Installing : 1:grub2-tools-2.06-9.amzn2.0.3.x86_64                                                                                                       3/25
+  Updating   : 1:grub2-pc-modules-2.06-9.amzn2.0.3.noarch                                                                                                  4/25
+  Installing : 1:grub2-pc-2.06-9.amzn2.0.3.x86_64                                                                                                          5/25
+  Installing : 1:grub2-2.06-9.amzn2.0.3.x86_64                                                                                                             6/25
+  Updating   : 1:grub2-efi-x64-ec2-2.06-9.amzn2.0.3.x86_64                                                                                                 7/25
+  Installing : 1:grub2-tools-extra-2.06-9.amzn2.0.3.x86_64                                                                                                 8/25
+  Installing : 1:grub2-tools-efi-2.06-9.amzn2.0.3.x86_64                                                                                                   9/25
+  Updating   : cloud-init-19.3-46.amzn2.0.1.noarch                                                                                                        10/25
+  Updating   : libwebp-0.3.0-10.amzn2.0.2.x86_64                                                                                                          11/25
+  Installing : kernel-5.10.179-166.674.amzn2.x86_64                                                                                                       12/25
+  Updating   : kernel-tools-5.10.179-166.674.amzn2.x86_64                                                                                                 13/25
+  Updating   : libssh2-1.4.3-12.amzn2.2.4.x86_64                                                                                                          14/25
+  Cleanup    : 1:grub2-efi-x64-ec2-2.06-9.amzn2.0.1.x86_64                                                                                                15/25
+  Cleanup    : 1:grub2-2.06-9.amzn2.0.1.x86_64                                                                                                            16/25
+  Cleanup    : 1:grub2-pc-2.06-9.amzn2.0.1.x86_64                                                                                                         17/25
+  Cleanup    : 1:grub2-pc-modules-2.06-9.amzn2.0.1.noarch                                                                                                 18/25
+  Cleanup    : cloud-init-19.3-46.amzn2.noarch                                                                                                            19/25
+  Cleanup    : 1:grub2-tools-minimal-2.06-9.amzn2.0.1.x86_64                                                                                              20/25
+  Cleanup    : 1:grub2-tools-2.06-9.amzn2.0.1.x86_64                                                                                                      21/25
+  Cleanup    : 1:grub2-common-2.06-9.amzn2.0.1.noarch                                                                                                     22/25
+  Cleanup    : libwebp-0.3.0-10.amzn2.0.1.x86_64                                                                                                          23/25
+  Cleanup    : kernel-tools-5.10.178-162.673.amzn2.x86_64                                                                                                 24/25
+  Cleanup    : libssh2-1.4.3-12.amzn2.2.3.x86_64                                                                                                          25/25
+  Verifying  : libssh2-1.4.3-12.amzn2.2.4.x86_64                                                                                                           1/25
+  Verifying  : kernel-tools-5.10.179-166.674.amzn2.x86_64                                                                                                  2/25
+  Verifying  : 1:grub2-tools-extra-2.06-9.amzn2.0.3.x86_64                                                                                                 3/25
+  Verifying  : 1:grub2-pc-modules-2.06-9.amzn2.0.3.noarch                                                                                                  4/25
+  Verifying  : kernel-5.10.179-166.674.amzn2.x86_64                                                                                                        5/25
+  Verifying  : 1:grub2-tools-2.06-9.amzn2.0.3.x86_64                                                                                                       6/25
+  Verifying  : 1:grub2-efi-x64-ec2-2.06-9.amzn2.0.3.x86_64                                                                                                 7/25
+  Verifying  : 1:grub2-tools-minimal-2.06-9.amzn2.0.3.x86_64                                                                                               8/25
+  Verifying  : 1:grub2-2.06-9.amzn2.0.3.x86_64                                                                                                             9/25
+  Verifying  : libwebp-0.3.0-10.amzn2.0.2.x86_64                                                                                                          10/25
+  Verifying  : cloud-init-19.3-46.amzn2.0.1.noarch                                                                                                        11/25
+  Verifying  : 1:grub2-common-2.06-9.amzn2.0.3.noarch                                                                                                     12/25
+  Verifying  : 1:grub2-pc-2.06-9.amzn2.0.3.x86_64                                                                                                         13/25
+  Verifying  : 1:grub2-tools-efi-2.06-9.amzn2.0.3.x86_64                                                                                                  14/25
+  Verifying  : 1:grub2-pc-2.06-9.amzn2.0.1.x86_64                                                                                                         15/25
+  Verifying  : kernel-tools-5.10.178-162.673.amzn2.x86_64                                                                                                 16/25
+  Verifying  : 1:grub2-tools-minimal-2.06-9.amzn2.0.1.x86_64                                                                                              17/25
+  Verifying  : cloud-init-19.3-46.amzn2.noarch                                                                                                            18/25
+  Verifying  : 1:grub2-pc-modules-2.06-9.amzn2.0.1.noarch                                                                                                 19/25
+  Verifying  : libwebp-0.3.0-10.amzn2.0.1.x86_64                                                                                                          20/25
+  Verifying  : 1:grub2-tools-2.06-9.amzn2.0.1.x86_64                                                                                                      21/25
+  Verifying  : 1:grub2-efi-x64-ec2-2.06-9.amzn2.0.1.x86_64                                                                                                22/25
+  Verifying  : 1:grub2-2.06-9.amzn2.0.1.x86_64                                                                                                            23/25
+  Verifying  : libssh2-1.4.3-12.amzn2.2.3.x86_64                                                                                                          24/25
+  Verifying  : 1:grub2-common-2.06-9.amzn2.0.1.noarch                                                                                                     25/25
+
+Installed:
+  grub2.x86_64 1:2.06-9.amzn2.0.3                    grub2-pc.x86_64 1:2.06-9.amzn2.0.3                   grub2-tools.x86_64 1:2.06-9.amzn2.0.3
+  grub2-tools-efi.x86_64 1:2.06-9.amzn2.0.3          grub2-tools-extra.x86_64 1:2.06-9.amzn2.0.3          grub2-tools-minimal.x86_64 1:2.06-9.amzn2.0.3
+  kernel.x86_64 0:5.10.179-166.674.amzn2
+
+Updated:
+  cloud-init.noarch 0:19.3-46.amzn2.0.1               grub2-common.noarch 1:2.06-9.amzn2.0.3                grub2-efi-x64-ec2.x86_64 1:2.06-9.amzn2.0.3
+  grub2-pc-modules.noarch 1:2.06-9.amzn2.0.3          kernel-tools.x86_64 0:5.10.179-166.674.amzn2          libssh2.x86_64 0:1.4.3-12.amzn2.2.4
+  libwebp.x86_64 0:0.3.0-10.amzn2.0.2
+
+Replaced:
+  grub2.x86_64 1:2.06-9.amzn2.0.1                                             grub2-tools.x86_64 1:2.06-9.amzn2.0.1
+
+Complete!
+[ec2-user@ip-10-1-1-20 ~]$ sudo yum install openswan -y
+Loaded plugins: extras_suggestions, langpacks, priorities, update-motd
+Resolving Dependencies
+--> Running transaction check
+---> Package libreswan.x86_64 0:3.25-4.8.amzn2.0.1 will be installed
+--> Processing Dependency: unbound-libs >= 1.6.6 for package: libreswan-3.25-4.8.amzn2.0.1.x86_64
+--> Processing Dependency: libunbound.so.2()(64bit) for package: libreswan-3.25-4.8.amzn2.0.1.x86_64
+--> Processing Dependency: libldns.so.1()(64bit) for package: libreswan-3.25-4.8.amzn2.0.1.x86_64
+--> Running transaction check
+---> Package ldns.x86_64 0:1.6.16-10.amzn2.0.3 will be installed
+---> Package unbound-libs.x86_64 0:1.7.3-15.amzn2.0.4 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================================================================================================
+ Package                               Arch                            Version                                        Repository                           Size
+================================================================================================================================================================
+Installing:
+ libreswan                             x86_64                          3.25-4.8.amzn2.0.1                             amzn2-core                          1.4 M
+Installing for dependencies:
+ ldns                                  x86_64                          1.6.16-10.amzn2.0.3                            amzn2-core                          473 k
+ unbound-libs                          x86_64                          1.7.3-15.amzn2.0.4                             amzn2-core                          485 k
+
+Transaction Summary
+================================================================================================================================================================
+Install  1 Package (+2 Dependent packages)
+
+Total download size: 2.3 M
+Installed size: 7.2 M
+Downloading packages:
+(1/3): ldns-1.6.16-10.amzn2.0.3.x86_64.rpm                                                                                               | 473 kB  00:00:00
+(2/3): unbound-libs-1.7.3-15.amzn2.0.4.x86_64.rpm                                                                                        | 485 kB  00:00:00
+(3/3): libreswan-3.25-4.8.amzn2.0.1.x86_64.rpm                                                                                           | 1.4 MB  00:00:00
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                                                           8.5 MB/s | 2.3 MB  00:00:00
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : unbound-libs-1.7.3-15.amzn2.0.4.x86_64                                                                                                       1/3
+  Installing : ldns-1.6.16-10.amzn2.0.3.x86_64                                                                                                              2/3
+  Installing : libreswan-3.25-4.8.amzn2.0.1.x86_64                                                                                                          3/3
+  Verifying  : libreswan-3.25-4.8.amzn2.0.1.x86_64                                                                                                          1/3
+  Verifying  : ldns-1.6.16-10.amzn2.0.3.x86_64                                                                                                              2/3
+  Verifying  : unbound-libs-1.7.3-15.amzn2.0.4.x86_64                                                                                                       3/3
+
+Installed:
+  libreswan.x86_64 0:3.25-4.8.amzn2.0.1
+
+Dependency Installed:
+  ldns.x86_64 0:1.6.16-10.amzn2.0.3                                           unbound-libs.x86_64 0:1.7.3-15.amzn2.0.4
+
+Complete!
+[ec2-user@ip-10-1-1-20 ~]$ vim /etc/sysctl.conf
+[ec2-user@ip-10-1-1-20 ~]$ sudo vim /etc/sysctl.conf
+
+# sysctl settings are defined through files in
+# /usr/lib/sysctl.d/, /run/sysctl.d/, and /etc/sysctl.d/.
+#
+# Vendors settings live in /usr/lib/sysctl.d/.
+# To override a whole file, create a new file with the same in
+# /etc/sysctl.d/ and put new settings there. To override
+# only specific settings, add a file with a lexically later
+# name in /etc/sysctl.d/ and put new settings there.
+#
+# For more information, see sysctl.conf(5) and sysctl.d(5).
+net.ipv4.ip_forward = 1
+net.ipv4.conf.default.rp_filter = 0
+net.ipv4.conf.default.accept_source_route = 0
+
+
+
+[ec2-user@ip-10-1-1-20 ~]$ sudo sysctl –p
+sysctl: cannot stat /proc/sys/–p: No such file or directory
+[ec2-user@ip-10-1-1-20 ~]$ sudo vim /etc/sysctl.conf
+[ec2-user@ip-10-1-1-20 ~]$ sysctl -p
+sysctl: permission denied on key 'net.ipv4.conf.default.rp_filter'
+sysctl: permission denied on key 'net.ipv4.conf.default.accept_source_route'
+[ec2-user@ip-10-1-1-20 ~]$ sudo vim /etc/sysctl.conf
+[ec2-user@ip-10-1-1-20 ~]$ sysctl -p
+sysctl: permission denied on key 'net.ipv4.ip_forward'
+sysctl: permission denied on key 'net.ipv4.conf.default.rp_filter'
+sysctl: permission denied on key 'net.ipv4.conf.default.accept_source_route'
+[ec2-user@ip-10-1-1-20 ~]$ sudo sysctl –p
+sysctl: cannot stat /proc/sys/–p: No such file or directory
+[ec2-user@ip-10-1-1-20 ~]$ sudo sysctl -p
+net.ipv4.ip_forward = 1
+net.ipv4.conf.default.rp_filter = 0
+net.ipv4.conf.default.accept_source_route = 0
+[ec2-user@ip-10-1-1-20 ~]$ sudo systemctl restart network
+[ec2-user@ip-10-1-1-20 ~]$ sudo vim /etc/ipsec.conf
+[ec2-user@ip-10-1-1-20 ~]$ sudo vim /etc/ipsec.d/aws.conf
+[ec2-user@ip-10-1-1-20 ~]$ sudo vim /etc/ipsec.d/aws.secrets
+[ec2-user@ip-10-1-1-20 ~]$ sudo systemctl restart ipsec.service
+[ec2-user@ip-10-1-1-20 ~]$ sudo systemctl restart network
+[ec2-user@ip-10-1-1-20 ~]$ ping 10.2.2.183
+PING 10.2.2.183 (10.2.2.183) 56(84) bytes of data.
+64 bytes from 10.2.2.183: icmp_seq=1 ttl=254 time=3.01 ms
+64 bytes from 10.2.2.183: icmp_seq=2 ttl=254 time=2.36 ms
+64 bytes from 10.2.2.183: icmp_seq=3 ttl=254 time=2.40 ms
+64 bytes from 10.2.2.183: icmp_seq=4 ttl=254 time=2.33 ms
+^C
+--- 10.2.2.183 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3004ms
+rtt min/avg/max/mdev = 2.333/2.530/3.019/0.283 ms
+[ec2-user@ip-10-1-1-20 ~]$ ls
+sydney.key.pem
+[ec2-user@ip-10-1-1-20 ~]$ chmod 600 sydney.key.pem
+[ec2-user@ip-10-1-1-20 ~]$ ssh -i sydney.key.pem ec2-user@10.2.2.183
+The authenticity of host '10.2.2.183 (10.2.2.183)' can't be established.
+ECDSA key fingerprint is SHA256:jIWj+rv0d56SbswMuWEQ88fL8Drh3xWDLxopCdzDqe4.
+ECDSA key fingerprint is MD5:a6:e0:3a:58:b0:54:5d:2c:e1:63:48:33:9f:a5:29:47.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '10.2.2.183' (ECDSA) to the list of known hosts.
+
+       __|  __|_  )
+       _|  (     /   Amazon Linux 2 AMI
+      ___|\___|___|
+
+https://aws.amazon.com/amazon-linux-2/
+[ec2-user@ip-10-2-2-183 ~]$
+Network error: Software caused connection abort
+
+────────────────────────────────────────────────────────────────────────────────
+
+Session stopped
+    - Press <Return> to exit tab
+    - Press R to restart session
+    - Press S to save terminal output to file
+Authenticating with public key "Imported-Openssh-Key"
+    ┌──────────────────────────────────────────────────────────────────────┐
+    │                 • MobaXterm Personal Edition v23.1 •                 │
+    │               (SSH client, X server and network tools)               │
+    │                                                                      │
+    │ ⮞ SSH session to ec2-user@13.239.115.119                             │
+    │   • Direct SSH      :  ✓                                             │
+    │   • SSH compression :  ✓                                             │
+    │   • SSH-browser     :  ✓                                             │
+    │   • X11-forwarding  :  ✗  (disabled or not supported by server)      │
+    │                                                                      │
+    │ ⮞ For more info, ctrl+click on help or visit our website.            │
+    └──────────────────────────────────────────────────────────────────────┘
+
+Last login: Mon May 22 03:23:12 2023 from 157.33.94.174
+
+       __|  __|_  )
+       _|  (     /   Amazon Linux 2 AMI
+      ___|\___|___|
+
+https://aws.amazon.com/amazon-linux-2/
+[ec2-user@ip-10-1-1-20 ~]$  sudo vim /etc/ipsec.d/aws.conf
+conn Tunnel1
+        authby=secret
+        auto=start
+        left=%defaultroute
+        leftid=13.239.115.119
+        right=13.55.116.116
+        type=tunnel
+        ikelifetime=8h
+        keylife=1h
+        phase2alg=aes128-sha1;modp1024
+        ike=aes128-sha1;modp1024
+        keyingtries=%forever
+        keyexchange=ike
+Network error: Software caused connection abort
+        rightsubnet=10.2.0.0/16
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+dpdtimeout=30
+Session stoppedon=restart_by_peer
+    - Press <Return> to exit tab
+    - Press R to restart session
+    - Press S to save terminal output to file
+~

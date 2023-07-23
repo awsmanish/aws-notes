@@ -1,0 +1,215 @@
+cource of aws 
+
+
+AWS 
+AWS-IAM
+AWS-S3
+AWS-EC2
+AWS-CLI
+AWS-EBS
+AWS-EFS
+AWS-ELB
+AWS-AS
+AWS-VPC
+AWS-Cloudwatch
+AWS-Router53
+AWS-Elastic Beanstalk
+AWS-cloudformation=== (dovops)
+AWS-Lambda
+AWS-RDS
+AWS-DynamoDB
+AWS-Redshift-----not required
+AW-WorkSpace-----not required
+AWS-SQS & SNS
+AWS-Snowball-----not required
+AWS-CloudTrail
+AWS-Cloudfrount
+AWS-Certificate Manager
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+4/04/23
+
+* what is aws?
+-> AWS stands for Amazon Web Services, which is a cloud computing platform provided by Amazon. AWS offers a wide range of cloud-based services, including computing power, storage, and databases, as well as other tools and functionalities that allow businesses and individuals to run their applications and services in the cloud.
+
+AWS provides a secure and scalable cloud infrastructure that can be used by companies of all sizes, from startups to large enterprises. With AWS, businesses can access a wide range of services and tools that can help them to develop, deploy, and manage their applications and services with ease.
+
+Some of the popular AWS services include Amazon EC2 (Elastic Compute Cloud) for computing power, Amazon S3 (Simple Storage Service) for object storage, Amazon RDS (Relational Database Service) for managed databases, Amazon DynamoDB for NoSQL databases, and Amazon Lambda for serverless computing. AWS also offers a range of other services for networking, security, machine learning, analytics, and more.
+
+Overall, AWS is a comprehensive cloud platform that provides a broad range of services and tools to help businesses and individuals build, deploy, and manage their applications and services in the cloud.
+
+
+
+* why aws mostly used?
+->  AWS provides a comprehensive cloud platform that offers scalability, flexibility, reliability, cost-effectiveness, and security. These factors have made it a popular choice for businesses of all sizes and across various industries.
+
+Scalability: AWS provides a highly scalable infrastructure that allows businesses to easily expand or shrink their computing resources based on their needs. This makes it easy for companies to handle traffic spikes or adjust their resources during peak times.
+
+Flexibility: AWS offers a wide range of services and tools that can be used for a variety of applications and use cases. This allows businesses to choose the services that best meet their needs and to easily switch between services as their needs evolve.
+
+Reliability: AWS provides a highly reliable infrastructure that offers high availability, durability, and data redundancy. This ensures that applications and services can continue to run even in the event of hardware or software failures.( consistent and accurate)
+
+Cost-effective: AWS offers a pay-as-you-go pricing model that allows businesses to only pay for the resources they use. This makes it easy for businesses to manage their costs and to optimize their resources to reduce costs.
+
+Security: AWS provides a highly secure infrastructure that includes features such as network security, encryption, access control, and compliance certifications. This helps businesses to secure their data and applications and to comply with industry standards and regulations.
+
+
+
+
+* how cloud differ from on-premise?
+-> cloud computing provides organizations with greater scalability, accessibility, and cost-efficiency, while on-premise computing provides greater control over the infrastructure and data. Organizations may choose to use one or the other, or a combination of both, depending on their specific needs and requirements.
+
+Infrastructure ownership and management: With on-premise computing, the infrastructure is owned and managed by the organization itself, while with cloud computing, the infrastructure is owned and managed by the cloud service provider.
+
+Scalability: Cloud computing provides a highly scalable infrastructure that allows organizations to easily expand or shrink their computing resources based on their needs, while on-premise computing requires organizations to invest in additional hardware or software to scale up their infrastructure.
+
+Accessibility: Cloud computing allows users to access their applications and data from anywhere with an internet connection, while on-premise computing requires users to be physically present on the company's premises to access the applications and data.
+
+Cost structure: Cloud computing follows a pay-as-you-go model, where organizations pay only for the resources they use, while on-premise computing requires organizations to make large upfront investments in hardware and software.
+
+Maintenance and updates: Cloud service providers are responsible for maintaining and updating the infrastructure, while with on-premise computing, organizations are responsible for maintaining and updating the infrastructure themselves.
+
+
+* what is cloud computing?
+-> Cloud computing refers to the delivery of computing services, including servers, storage, databases, networking, software, analytics, and more, over the internet, on-demand and pay-as-you-go basis. Cloud computing allows users to access powerful computing resources without having to invest in and manage their own physical hardware and infrastructure.(cloud is a way of working or communicating with any machine which is present somewhere else)
+
+
+Essential characteristics of cloud computing
+-> There are five essential characteristics of cloud computing that are commonly recognized:
+
+On-demand self-service: Cloud computing resources can be easily and quickly provisioned and managed by users, without the need for human interaction with service providers. This means that users can easily request, configure, and deploy resources when they need them, without having to go through a lengthy process of manual approval.
+
+Broad network access: Cloud computing resources are available over the internet or other network connections, allowing users to access them from anywhere and on any device.(regions all around world)
+
+Resource pooling: Cloud computing resources are pooled together and shared among multiple users, allowing for greater efficiency and utilization of resources. a physical server can be divided into multiple virtual machines, each of which can run its own operating system and applications. These VMs can then be combined into a pool of computing resources that can be shared by multiple users or applications.
+
+Rapid elasticity: Cloud computing resources can be quickly scaled up or down in response to changing demands, allowing users to easily adjust their resource usage as needed.(automatically scale up or down computing resources with in a minute/seconds)
+
+Measured service: Cloud computing resources are metered and billed based on actual usage, allowing users to pay only for the resources they consume.(many services provided by aws in compaire to gcp and asure)
+
+
+
+
+* Deployment model
+-> A deployment model refers to the way in which a cloud computing service is delivered to users. 
+
+Public Cloud: In a public cloud, computing resources are made available to the general public over the internet by a cloud service provider. These resources are owned and operated by the service provider and are typically offered on a pay-as-you-go basis. Examples of public cloud providers include Amazon Web Services (AWS), Microsoft Azure, and Google Cloud Platform.
+
+Private Cloud: In a private cloud, computing resources are dedicated to a single organization and are not shared with other organizations. The private cloud can be located on-premises, in a data center owned and operated by the organization, or hosted by a third-party provider. Private clouds are typically more secure than public clouds but can be more expensive to operate.
+
+Hybrid Cloud: In a hybrid cloud, computing resources are spread across both public and private clouds. This allows organizations to leverage the benefits of both public and private clouds, such as the scalability and cost-effectiveness of the public cloud and the security and control of the private cloud.(ex: database private & website public)
+
+Community Cloud: A community cloud is a cloud deployment model that is designed for use by a specific community of users or organizations with shared needs or requirements. A community cloud is typically hosted by a third-party service provider and offers shared access to resources and applications. Examples of community clouds include cloud-based services for healthcare, education, or government organizations. The community cloud model provides benefits such as greater collaboration, improved data sharing, and more efficient use of resources.
+
+
+=========================================================================================================================================================================================================================
+
+
+5/04/23
+
+
+* What is Virtualization?
+-> Virtualization is technology that you can use to create virtual representations of servers, storage, networks, and other physical machines. Virtual software mimics the functions of physical hardware to run multiple virtual machines simultaneously on a single physical machine. Businesses use virtualization to use their hardware resources efficiently and get greater returns from their investment. It also powers cloud computing services that help organizations manage infrastructure more efficiently.
+
+* Why is virtualization important?
+-> By using virtualization, you can interact with any hardware resource with greater flexibility. Physical servers consume electricity, take up storage space, and need maintenance. You are often limited by physical proximity and network design if you want to access them. Virtualization removes all these limitations by abstracting physical hardware functionality into software. You can manage, maintain, and use your hardware infrastructure like an application on the web.
+
+* Virtual machine
+-> A virtual machine is a software-defined computer that runs on a physical computer with a separate operating system and computing resources. The physical computer is called the host machine and virtual machines are guest machines. Multiple virtual machines can run on a single physical machine. Virtual machines are abstracted from the computer hardware by a hypervisor.
+
+* Hypervisor
+-> The hypervisor is a software component that manages multiple virtual machines in a computer. It ensures that each virtual machine gets the allocated resources and does not interfere with the operation of other virtual machines. There are two types of hypervisors.
+
+Type 1 hypervisor
+	A type 1 hypervisor, or bare-metal hypervisor, is a hypervisor program installed directly on the computer’s hardware instead of the operating system. Therefore, type 1 hypervisors have better performance and are commonly used by enterprise applications. 
+
+Type 2 hypervisor
+	Also known as a hosted hypervisor, the type 2 hypervisor is installed on an operating system. Type 2 hypervisors are suitable for end-user computing.
+
+* service model
+-> A service model refers to a business model in which a company provides a service to customers, rather than producing and selling a physical product. In the service model, the company offers its expertise, time, and effort to provide a solution to a customer's problem, need, or desire.
+
+The service model can also be categorized based on the type of service provided, and these categories include on-premises, Infrastructure as a Service (IaaS), Platform as a Service (PaaS), and Software as a Service (SaaS).
+
+
+Network: This field refers to the infrastructure and networking components required to deliver a cloud service. It includes components such as switches, routers, load balancers, firewalls, and VPN gateways.
+
+Storage: This field refers to the storage infrastructure required to store data and applications. It includes components such as hard disks, solid-state drives (SSDs), network-attached storage (NAS), and storage area networks (SANs).
+
+Server: This field refers to the physical hardware required to run applications and services in the cloud. It includes components such as processors, memory, and storage.
+
+Virtualization: This field refers to the software that allows multiple virtual machines to run on a single physical server. It includes components such as hypervisors, virtual machine managers, and virtual machine templates.
+
+Operating System (OS): This field refers to the software that runs on the servers and provides the interface between the hardware and the applications. It includes components such as Windows Server, Linux, and Unix.
+
+Middleware: This field refers to the software that provides a bridge between the operating system and the applications. It includes components such as web servers, application servers, and message queues.
+
+Runtime: This field refers to the software environment required to run an application. It includes components such as Java Virtual Machine (JVM), .NET Framework, and Node.js.
+
+Data: This field refers to the data storage and management services required to store and access data in the cloud. It includes components such as databases, data warehouses, and data lakes.
+
+Application: This field refers to the software applications that run in the cloud. It includes components such as web applications, mobile applications, and enterprise applications.
+
+
+On-premises: This service model refers to software or systems that are installed and run on the customer's own hardware infrastructure, often within the customer's own premises. The customer is responsible for maintaining the hardware and software, as well as upgrading it as needed.
+
+Infrastructure as a Service (IaaS): In the IaaS model, the provider offers a virtualized computing infrastructure, including servers, storage, and networking, on which customers can run their own applications and operating systems. The customer is responsible for managing and maintaining their applications and data, as well as the underlying infrastructure. This provides a high level of flexibility and control to the customer, as they can configure and manage the infrastructure according to their specific needs. However, it also requires a higher level of technical expertise and responsibility on the part of the customer.
+	AWS offers IaaS services through its Elastic Compute Cloud (EC2) service, which provides virtual machines (VMs) or instances that customers can use to run their own applications or software. Customers have complete control over the operating system, applications, and network configurations.
+
+Platform as a Service (PaaS): In the PaaS model, the provider offers a pre-configured platform for developing, deploying, and managing applications. The platform includes tools, frameworks, and services such as databases, application servers, and development environments. Customers can focus on developing and deploying their applications, while the provider takes care of the underlying infrastructure, scaling, and maintenance. This provides a more streamlined and efficient development experience for customers, but also limits the level of control and flexibility they have over the underlying infrastructure.
+	AWS offers PaaS services through its Elastic Beanstalk service, which provides a platform for customers to deploy and manage their applications without having to worry about the underlying infrastructure. Customers can simply upload their application code and Elastic Beanstalk takes care of deploying and scaling the application.
+
+Software as a Service (SaaS): In the SaaS model, the provider offers a complete software application that is hosted and managed by the provider. Customers can access the application through a web browser or other client, without needing to install or manage any software on their own systems. The provider is responsible for maintaining and upgrading the software, as well as providing ongoing support to customers. This provides a high level of convenience and accessibility for customers, but also limits the level of control they have over the application and its underlying infrastructure.(no control over backend process, no information about os, no information about database)
+	AWS offers SaaS services through various services such as Amazon s3 service, WorkMail, Amazon Chime, and Amazon WorkDocs. These services provide fully managed solutions that customers can use to perform specific tasks such as email, video conferencing, and document collaboration without having to manage any infrastructure.
+
+
+
+* virtualization vs hypervisor
+->  virtualization refers to the process of creating virtual versions of physical resources, while a hypervisor is a type of software that enables virtualization by managing the allocation of physical resources to virtual machines.
+
+
+
+
+
+
+
+
+
+
+=================================================================================================================
+
+
+
+
+The S3 storage classes include:
+
+
+1. S3 Standard: This is the default storage class for frequently accessed data. It provides low-latency and high-throughput performance, making it ideal for use cases that require real-time access to data. S3 Standard is highly durable and available, with built-in redundancy across multiple devices and facilities.
+	 It costs $0.023 per GB per month for storage, with additional fees for data transfer, requests, and management. For example, storing 100GB of data in S3 Standard for one month would cost approximately $2.30, not including additional fees.
+
+2. S3 Standard-Infrequent Access (S3 Standard-IA): This storage class is designed for less frequently accessed data that still requires fast access when needed. It offers the same performance as S3 Standard but with lower storage costs. S3 Standard-IA charges a retrieval fee for objects that are accessed less frequently than once a month.
+	 It costs $0.0125 per GB per month for storage, with additional fees for data transfer, requests, and management. S3 Standard-IA also charges a retrieval fee of $0.01 per GB for objects that are accessed less frequently than once a month. For example, storing 100GB of data in S3 Standard-IA for one month and accessing 10GB of data once during that month would cost approximately $2.38.
+
+3. S3 One Zone-Infrequent Access (S3 One Zone-IA): This storage class is similar to S3 Standard-IA, but the data is stored in a single availability zone instead of multiple zones. This makes it less durable and less available than S3 Standard-IA, but it also makes it more cost-effective.
+	It costs $0.01 per GB per month for storage, with additional fees for data transfer, requests, and management. S3 One Zone-IA also charges a retrieval fee of $0.01 per GB for objects that are accessed less frequently than once a month. For example, storing 100GB of data in S3 One Zone-IA for one month and accessing 10GB of data once during that month would cost approximately $1.90.
+
+4. S3 Intelligent-Tiering: This storage class is designed to optimize costs for data with unknown or changing access patterns. S3 Intelligent-Tiering automatically moves objects between two access tiers: frequent and infrequent access. Objects that are frequently accessed are stored in the frequent access tier, and objects that have not been accessed for 30 days are automatically moved to the infrequent access tier. This storage class provides automatic cost savings without the need for any user intervention.
+	For frequent access data, the storage cost is $0.023 per GB per month, and for infrequent access data, the storage cost is $0.0125 per GB per month. In addition to storage costs, there are fees for data transfer, requests, and management. For example, storing 100GB of data in S3 Intelligent-Tiering for one month with 50GB in the frequent access tier and 50GB in the infrequent access tier would cost approximately $2.76.
+
+5. S3 Glacier Instant Retrieval: This storage class is designed for archive data that needs immediate access. It provides low-latency retrieval times of just a few minutes, making it ideal for use cases that require fast access to archived data. However, it has higher storage and retrieval costs than other storage classes.
+	 It costs $0.025 per GB for storage and a retrieval fee of $0.01 per GB for expedited retrievals that take 1-5 minutes. In addition to storage and retrieval fees, there are fees for data transfer, requests, and management. For example, storing 100GB of data in S3 Glacier Instant Retrieval for one year and retrieving 10GB of data once during that year using expedited retrieval would cost approximately $31.50.
+
+6. S3 Glacier Flexible Retrieval (formerly S3 Glacier): This storage class is designed for rarely accessed long-term data that does not require immediate access. It offers lower storage costs than other storage classes but with longer retrieval times, typically ranging from minutes to hours. It charges a retrieval fee based on the amount of data being retrieved.
+	It costs $0.004 per GB per month for storage and a retrieval fee of $0.05 per GB for standard retrievals that take 12 hours or longer. In addition to storage and retrieval fees, there are fees for data transfer, requests, and management. For example, storing 100GB of data in S3 Glacier Flexible Retrieval for one year and retrieving 10GB of data once during that year using standard retrieval would cost approximately $4.90. 
+
+7. S3 Glacier Deep Archive: This storage class is designed for long-term archive and digital preservation. It offers the lowest storage costs of all S3 storage classes but with retrieval times that can take several hours. S3 Glacier Deep Archive charges a retrieval fee based on the amount of data being retrieved and requires a minimum storage duration of 180 days. This storage class is ideal for data that is seldom accessed but must be retained for compliance or legal reasons.
+	 It costs $0.00099 per GB per month for storage, with additional fees for data transfer, requests, and management. S3 Glacier Deep Archive also charges a retrieval fee of $0.0025 per GB for standard retrievals that take 12 hours or longer and $0.03 per GB for expedited retrievals that take 1-5 minutes. For example, storing 100GB of data in S3 Glacier Deep Archive for one year and retrieving 10GB of data once during that year using standard retrieval would cost approximately $11.88.
+
+
