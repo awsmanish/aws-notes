@@ -1,0 +1,69 @@
+to create RDS :----
+create-rds------> standard-create -------> engine(mariadb) -----> template (free tier) --->settings---> db instance identifier (database-1) -----> master username (admin) password  (admin1234) ----> storage (gp2,gp3,io1,magnetic) ----->20Gb ----> enable 0r disable storage autoscaling ---->connectivity vpc  -----> db-subnet-group ----> public access (no) ----> 
+
+
+create instance :----
+name ----> key -----> ubuntu -----> security group port (8080. 3306,22) -----> launch instances
+
+take ssh using moba
+sudo -i
+apt update -y 
+apt install default-jre  
+apt install mariadb-server -y
+wget <url of tomcat(https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.75/bin/apache-tomcat-9.0.75.tar.gz)>
+tar xvf <apache ......> -C /opt/
+cd /opt/apache.....75/
+mv /home/ubuntu/student.war webapps/
+5)	JAVA –VERSION  APT UPDATE –Y  APT INSTALL JAVA –Y
+./bin/catalina.sh start      or     ./bin/startup.sh
+
+
+
+hit the url ip(ec2-Public IPv4 address):8080/student
+then try to save record
+
+
+mv /home/ubuntu/mysql-connector.jar lib/
+vim conf/context.xml 
+  after this line <context>
+               <Resource name="jdbc/TestDB" auth="Container" type="javax.sql.DataSource"
+               maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+               username="USERNAME" password="PASSWORD" driverClassName="com.mysql.jdbc.Driver"
+               url="jdbc:mysql://DB-ENDPOINT:3306/DATABASE(studentapp)"/>
+(give username password dbendpoint and database)
+
+then,
+
+mysql -u admin -h <endpoint-url> -p admin1234{note :- agr mysql login nhi huaa to rds ka Security Groups m port add krna ((8080. 3306,22))}
+show databases;
+create database studentapp;
+use studentapp;
+ 
+CREATE TABLE if not exists students(student_id INT NOT NULL AUTO_INCREMENT,
+	student_name VARCHAR(100) NOT NULL,
+    student_addr VARCHAR(100) NOT NULL,
+	student_age VARCHAR(3) NOT NULL,
+	student_qual VARCHAR(20) NOT NULL,
+	student_percent VARCHAR(10) NOT NULL,
+	student_year_passed VARCHAR(10) NOT NULL,
+	PRIMARY KEY (student_id)
+);
+
+desc students;
+select * from students;
+
+ctrl+D
+
+./bin/catalina.sh stop       or       ./bin/shutdown.sh 
+then,
+./bin/catalina.sh start      or       ./bin/startup.sh
+
+
+then
+hit url ip(ec2-Public IPv4 address):8080/student now try to register
+
+
+
+
+
+
